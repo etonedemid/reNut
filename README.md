@@ -9,13 +9,21 @@ Created with <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
 Credits
 ------------------------------------------------
 Rexglue team for creating Rexglue-SDK
+<br>
 the Rexglue SDK discord for helping with any info they have
+<br>
 .
+<br>
 .
+<br>
 .
+<br>
 .
+<br>
 .
+<br>
 .
+<br>
 you, the player?
 
 
