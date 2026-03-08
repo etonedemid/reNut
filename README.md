@@ -1,4 +1,4 @@
-Welcome to reNut (Banjo-Kazooie: Nuts & Bolts Recomp) a recomp built with rexglue 
+Welcome to reNut (Banjo-Kazooie: Nuts & Bolts Recomp)
 
 Created with <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
 
