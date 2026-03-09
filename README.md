@@ -29,6 +29,26 @@ you, the player?
 
 
 
+HOW TO BUILD
+-----------------------------------------------------------------------------------
+1. Install Rexglue-SDk following the <a href="https://github.com/rexglue/rexglue-sdk/wiki/Guide-%E2%80%90-Getting-Started">wiki</a>
+2. install Visual Studio Community edition and ensure you install the desktop development with C++ and make sure you check the box that says C++ clang compiler for windows (note: if you are using Mac or linux you can skip this for you will have to follow the wiki linked in step 1 to build the game)
+3. clone/download the repository
+4. in the repository folder make an assets and generated folder
+5. dump your copy of Banjo-Kazooie: Nuts&bolts and use a tool like ISO-Extract to dump the contents of the iso
+6. place the contents of the iso in the assets folder you created in step 4
+7. open the folder in visual studio, go into cmake targets view
+8. change the configuration to win-amd64-relwithdebinfo
+9. right click reNut project and select build all
+10. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo
+
+PREFFERED METHOD OF RUNNING THE GAME
+-----------------------------------------------------------
+open a terminal and do .\renut --gpu_allow_invalid_fetch_constants=true to prevent some hangs in game
+
+if your using something like cmd or similar you only need to run renut --gpu_allow_invalid_fetch_constants=true 
+
+
 CURRENT ISSUE!!!!
 ------------------------------------------------------------------------------
 THE GAME CRASHES WHEN YOU LEAVE AN AREA BACK INTO SHOWDOWN TOWN, THE CURRENT WORKAROUND IS TO CLOSE THE GAME INSTEAD AFTER IT AUTO SAVES THEN REOPEN, THIS WILL SPAWN BANJO BACK INTO SHOWDOWN TOWN WITH THE JIGGIES YOU'VE COLLECTED
@@ -44,6 +64,4 @@ Remember that this game and rexglue are in an experimental state, there are some
 if you make an issue you will ned to be a bit specific 
 
 
-When Running
-----------------------------------------------------
-instead of double clicking run a terminal and do .\renut --gpu_allow_invalid_fetch_constants=true to prevent some hangs in game
+
