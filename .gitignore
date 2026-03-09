@@ -1,0 +1,6 @@
+## Ignore Recomp files, Build results, and Assets
+
+assets/
+generated/
+out/
+.vs/
