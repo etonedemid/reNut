@@ -37,10 +37,11 @@ HOW TO BUILD
 2. install Visual Studio Community edition and ensure you install the desktop development with C++ and make sure you check the box that says C++ clang compiler for windows (note: if you are using Mac or linux you can skip this for you will have to follow the wiki linked in step 1 to build the game)
 3. clone/download the repository
 4. dump your copy of Banjo-Kazooie: Nuts&bolts and use a tool like ISO-Extract to dump the contents of the iso (INCLUDING THE DEFAULT.XEX FILE)
-5. place the contents of the iso in the assets folder you created in step 4 (INCLUDING THE DEFAULT.XEX FILE)
+5. place the contents of the iso in the assets folder(INCLUDING THE DEFAULT.XEX FILE)
 6. open the folder in visual studio, go into cmake targets view
 7. change the configuration to win-amd64-relwithdebinfo
 8. expand the reNut project in VS and right click renut_codegen(utility target) > build renut_codegen to generate the files for compiling in the generated folder
+   8a. alternatively if you put rexglue.exe in your path environment variable you can do ```rexglue codegen renut_config.toml``` in a terminal opened in the directory of reNut
 10. right click reNut project and select build all
 11. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo 
 
