@@ -12,6 +12,8 @@ Rexglue team for creating Rexglue-SDK
 <br>
 the Rexglue SDK discord for helping with any info they have
 <br>
+SolarCookies
+<br>
 .
 <br>
 .
