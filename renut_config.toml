@@ -53,3 +53,11 @@ name = "overworld_vehicles_hook"
 registers = []
 after_instruction = false
 jump_address_on_true = 0x825A8F24
+
+
+[[midasm_hook]]
+address = 0x824CE324
+name = "no_notes_spent"
+registers = []
+after_instruction = false
+jump_address_on_true = 0x824CE32C
