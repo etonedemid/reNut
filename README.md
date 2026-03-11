@@ -40,8 +40,7 @@ HOW TO BUILD
 5. place the contents of the iso in the assets folder(INCLUDING THE DEFAULT.XEX FILE)
 6. open the folder in visual studio, go into cmake targets view
 7. change the configuration to win-amd64-relwithdebinfo
-8. expand the reNut project in VS and right click renut_codegen(utility target) > build renut_codegen to generate the files for compiling in the generated folder
-   8a. alternatively if you put rexglue.exe in your path environment variable you can do ```rexglue codegen renut_config.toml``` in a terminal opened in the directory of reNut
+8. put rexglue.exe in your path environment variable and do ```rexglue codegen renut_config.toml``` in a terminal (visual studios works, or you can use windows default terminal/cmd/powershell)
 10. right click reNut project and select build all
 11. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo 
 
