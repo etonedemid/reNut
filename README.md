@@ -1,4 +1,9 @@
-Welcome to reNut (Banjo-Kazooie: Nuts & Bolts Recomp)
+
+<img width="1920" height="1080" alt="renut logo" src="https://github.com/user-attachments/assets/80513c46-105b-4184-9258-ab643205cb69" />
+
+
+
+
 
 Created with <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
 
@@ -14,6 +19,7 @@ the Rexglue SDK discord for helping with any info they have
 <br>
 SolarCookies for midasm hooks and future use of CRT functions
 <br>
+ValcomDrifty for the renut logo
 .
 <br>
 .
