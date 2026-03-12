@@ -39,7 +39,7 @@ you, the player?
 
 REQUIREMENTS
 -------------------------------------------------------------------
-US version of banjo-kazooie: nuts and bolts default.xex(soon:tm:)
+US version of banjo-kazooie: nuts and bolts default.xex
 
 
 
