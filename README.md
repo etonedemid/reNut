@@ -69,7 +69,7 @@ SOMETIMES SAVING OVER A CART AND RENAMING IT CAUSES A CRASH, THERE IS NO FIX FOR
 MAKING ISSUES
 --------------------------------------------------------------------------
 Remember that this game and rexglue are in an experimental state, there are some issues i myself cannot fix and there may even be some that rexglue cant fix
-if you make an issue you will ned to be a bit specific 
+if you make an issue you will need to be a bit specific 
 
 
 
