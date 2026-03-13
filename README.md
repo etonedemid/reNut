@@ -17,7 +17,7 @@ Rexglue team for creating Rexglue-SDK
 <br>
 the Rexglue SDK discord for helping with any info they have
 <br>
-SolarCookies for midasm hooks and future use of CRT functions
+SolarCookies for midasm hooks and future use of CRT functions and the reNut Launcher
 <br>
 ValcomDrifty for the renut logo
 <br>
@@ -42,6 +42,16 @@ REQUIREMENTS
 US version of banjo-kazooie: nuts and bolts default.xex
 
 
+How to Use
+-------------------------------------------
+1. Download the reNut Launcher from <a href="https://github.com/masterspike52/reNut/releases/">Releases</a>
+2. click file > set game folder to pick your prefered install location (if you dont the default will be in the root of the launcher folder)
+3. open the launcher and select "select game iso" and select your banjo kazooie nuts and bolts (US) iso
+4. when its done dumping your iso select download
+5. after its done downloading select launch game
+
+   HUGE CREDITS TO SOLAR COOKIES FOR MAKING THE LAUNCHER, HE PUT A LOT OF HARD WORK INTO IT, HE HAS ALSO APPROVED OF USING THE CODE TO MAKE YOUR OWN, YOU CAN FIND IT <a href="https://github.com/SolarCookies/reNut-Launcher">HERE</a> 
+
 
 
 HOW TO BUILD
@@ -55,7 +65,10 @@ HOW TO BUILD
 7. change the configuration to win-amd64-relwithdebinfo
 8. put rexglue.exe in your path environment variable and do ```rexglue codegen renut_config.toml``` in a terminal (visual studios works, or you can use windows default terminal/cmd/powershell)
 10. right click reNut project and select build all
-11. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo 
+11. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo
+
+
+
 
 PREFFERED METHOD OF RUNNING THE GAME
 -----------------------------------------------------------
