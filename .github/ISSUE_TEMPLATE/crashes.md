@@ -1,16 +1,18 @@
 ---
 name: Crashes
-about: Use this when the game crashes during specific things
+about: Use this template when the game/launcher crash
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-Version of Rexglue:
+# Was it the game or the launcher?
+
+
+## if it was the game, what world and what were you doing before the crash?
 
 
 
-What were you doing in game when crash happened? (i.e. entered mumbos motors)
 
-is the issue noted on the readme?
+### if it was the launcher, what action did you make before the crash?
