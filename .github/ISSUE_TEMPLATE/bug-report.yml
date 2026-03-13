@@ -6,92 +6,31 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting a bug! Please fill out as much detail as possible.
+        Thanks for reporting a crash! Please fill out as much detail as possible.
 
   - type: textarea
-    id: description
+    id: reNut or reNut-Launcher
     attributes:
       label: Description
-      description: Clear description of the bug
-      placeholder: When I do X, Y happens instead of Z.
+      description: Was it reNut or reNut-Launcher?
+      placeholder: Was it reNut or reNut-Launcher?
     validations:
       required: true
 
   - type: textarea
-    id: steps-to-reproduce
+    id: if reNut 
     attributes:
-      label: Steps to Reproduce
-      description: Minimal steps to reproduce the behavior
-      placeholder: |
-        1. Build with '...'
-        2. Run '...'
-        3. Observe error in log, set breakpoint here and inspect, etc.
+      label: What World and What action was happening when the crash occured
+      description: if renut
+      placeholder: if reNut-Launcher please fill space with N/A
     validations:
       required: true
 
-  - type: textarea
-    id: expected-behavior
+   - type: textarea
+    id: if reNut-Launcher
     attributes:
-      label: Expected Behavior
-      description: What should happen instead?
+      label: was happening when the crash occured
+      description: if reNut-Launcher
+      placeholder: if reNut please fill space with N/A
     validations:
       required: true
-
-  - type: textarea
-    id: actual-behavior
-    attributes:
-      label: Actual Behavior
-      description: What actually happens? Include error messages, stack traces, or logs if available.
-      placeholder: |
-        The program crashes with:
-        ```
-        error message here
-        ```
-    validations:
-      required: true
-
-  - type: dropdown
-    id: platform
-    attributes:
-      label: Platform
-      description: What platform are you running on?
-      options:
-        - Windows
-        - Linux
-    validations:
-      required: true
-
-  - type: input
-    id: compiler
-    attributes:
-      label: Clang version
-    validations:
-      required: false
-
-  - type: input
-    id: version
-    attributes:
-      label: Version / Commit
-      description: Version number or git commit hash
-      placeholder: v0.1.0 or abc1234
-    validations:
-      required: false
-
-  - type: textarea
-    id: environment
-    attributes:
-      label: Additional Environment Info
-      description: Any other relevant environment details (dev tool versions, GPU, etc.)
-    validations:
-      required: false
-
-  - type: textarea
-    id: related
-    attributes:
-      label: Related
-      description: Links to related issues, code, or documentation
-      placeholder: |
-        - Possibly related to #69
-        - Relevant code: `src/foo/bar.cpp:420`
-    validations:
-      required: false
