@@ -1,0 +1,41 @@
+name: Crash Report
+description: Template For Crash Report
+title: '[Crash]: '
+body:
+  - type: dropdown
+    id: reNut-or-reNut-Launcher
+    attributes:
+      label: reNut-or-reNut-Launcher
+      description: select reNut if the game crashed, reNut-Launcher if launcher crashed
+      options:
+        - reNut.exe
+        - reNut-Launcher.exe
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reNut
+    attributes:
+      label: reNut
+      description: >-
+        say exactly where in the game it crashed and what you were doing before
+        the crash (i.e. Mumbo's Motors, saving cart, crash happens after text
+        input)
+      placeholder: if crash happens with reNut launcher please fill any spaces with N/A
+      value: if crash happens with reNut launcher please fill any spaces with N/A
+      render: if crash happens with reNut launcher please fill any spaces with N/A
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reNut-Launcher
+    attributes:
+      label: reNut-Launcher
+      description: say exactly what action you were performing before the launcher crashed
+      placeholder: if crash happens with reNut please fill any spaces with N/A
+      value: if crash happens with reNut please fill any spaces with N/A
+      render: if crash happens with reNut please fill any spaces with N/A
+    validations:
+      required: true
+      
+
