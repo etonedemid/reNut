@@ -3,7 +3,7 @@ description: Report a bug or unexpected behavior
 title: "[Bug]: "
 labels: ["bug"]
 body:
-  - type: markdown
+- type: markdown
     attributes:
       value: |
         Thanks for reporting a crash! Please fill out as much detail as possible.
