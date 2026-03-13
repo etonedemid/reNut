@@ -77,3 +77,10 @@ address = 0x821F8CC4
 name = "fpsCount_hook"
 registers = []
 after_instruction = false
+
+[[midasm_hook]]
+address = 0x823ED858
+name = "meGetResolutionParams_hook"
+registers = ["r5", "r6"]
+after_instruction = true
+jump_address_on_true = 0x823ED950
