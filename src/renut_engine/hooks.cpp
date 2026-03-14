@@ -1,5 +1,3 @@
-#include "renut_engine/hooks.h"
-
 #include <atomic>
 #include <chrono>
 #include <thread>
@@ -53,6 +51,7 @@ void fpsCount_hook() {
   }
 }
 
+
 bool meGetResolutionParams_hook(PPCRegister& r5, PPCRegister& r6){
  // r5.u32 = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(&bWidth));
   //r6.u32 = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(&bHeight));
@@ -66,4 +65,3 @@ bool meGetResolutionParams_hook(PPCRegister& r5, PPCRegister& r6){
 void Optimization_Hook(){
   std::this_thread::yield();
 }
-
