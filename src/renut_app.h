@@ -23,4 +23,8 @@ public:
     void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override {
         drawer->AddDialog(new FpsOverlayDialog(drawer));
     }
+    //void OnConfigurePaths(rex::PathConfig& paths) override {
+    //    // Redirect game data root from assets/debug to assets/bundle
+    //    paths.game_data_root = paths.game_data_root.parent_path() / "assets";
+    //}
 };

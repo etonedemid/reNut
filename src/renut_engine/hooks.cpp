@@ -2,7 +2,6 @@
 #include <chrono>
 #include <thread>
 #include <cstdint> // For uintptr_t
-
 #include <rex/cvar.h>
 #include <rex/ppc/types.h>
 #include <rex/system/kernel_state.h>
@@ -14,6 +13,7 @@ REXCVAR_DEFINE_INT32(fpsvsync, 0, "Nuts&Bolts", "Immediate (0) 60Hz (1) 30Hz (2)
 .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
 REXCVAR_DEFINE_BOOL(lowres, false, "Nuts&Bolts", "Makes the game 480p");
 REXCVAR_DEFINE_DOUBLE(fpsCount, 0.0, "Nuts&Bolts","");  // This would be a frame timer display that updates every frame
+
 
 inline int bWidth = 640;
 inline int bHeight = 480;

@@ -12,16 +12,19 @@ public:
         : rex::ui::ImGuiDialog(drawer) {}
 
     void OnDraw(ImGuiIO& io) override {
-        if (!REXCVAR_GET(show_fps_overlay)) {
-            return; // Don't draw the overlay if it's disabled
-		}
+        // Key check must be outside the window so NoInputs doesn't block it
+        if (ImGui::IsKeyPressed(ImGuiKey_F12)) {
+            REXCVAR_SET(show_fps_overlay, !REXCVAR_GET(show_fps_overlay));
+        }
+
+        if (!REXCVAR_GET(show_fps_overlay)) return;
+
         const double fps = REXCVAR_GET(fpsCount);
 
         ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f));
-            //ImGuiCond_Always, ImVec2(1.0f, 0.0f));
         ImGui::SetNextWindowBgAlpha(0.0f);
-        ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 0));
         ImGui::SetNextWindowSize(ImVec2(120.0f, 0.0f));
+        ImGui::PushStyleColor(ImGuiCol_Border, IM_COL32(0, 0, 0, 0));
 
         ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration |
             ImGuiWindowFlags_NoInputs |
@@ -31,12 +34,24 @@ public:
 
         if (ImGui::Begin("##fps_overlay", nullptr, flags)) {
             ImVec4 color;
-            if (fps >= 59.0)       color = ImVec4(0.2f, 1.0f, 1.0f, 1.0f);   // blue
-            else if (fps >= 30.0)  color = ImVec4(0.2f, 1.0f, 0.2f, 1.0f);   // green
-            else if (fps <= 20.0)  color = ImVec4(1.0f, 0.2f, 0.2f, 1.0f);   // red
-            else                   color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);   // yellow (21-29)
+            if (fps >= 59.0)       color = ImVec4(0.2f, 1.0f, 1.0f, 1.0f);  // blue
+            else if (fps >= 30.0)  color = ImVec4(0.2f, 1.0f, 0.2f, 1.0f);  // green
+            else if (fps <= 20.0)  color = ImVec4(1.0f, 0.2f, 0.2f, 1.0f);  // red
+            else                   color = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);  // yellow (21-29)
 
-            ImGui::TextColored(color, "FPS: %.1f", fps);
+            char buf[32];
+            snprintf(buf, sizeof(buf), "FPS: %.1f", fps);
+
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            ImDrawList* dl = ImGui::GetWindowDrawList();
+            ImU32 shadow = IM_COL32(0, 0, 0, 200);
+
+            dl->AddText(ImVec2(pos.x - 1, pos.y - 1), shadow, buf);
+            dl->AddText(ImVec2(pos.x + 1, pos.y - 1), shadow, buf);
+            dl->AddText(ImVec2(pos.x - 1, pos.y + 1), shadow, buf);
+            dl->AddText(ImVec2(pos.x + 1, pos.y + 1), shadow, buf);
+
+            ImGui::TextColored(color, "%s", buf);
         }
         ImGui::End();
         ImGui::PopStyleColor();
