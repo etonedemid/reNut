@@ -13,7 +13,7 @@ REXCVAR_DEFINE_INT32(fpsvsync, 0, "Nuts&Bolts", "Immediate (0) 60Hz (1) 30Hz (2)
 .lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
 REXCVAR_DEFINE_BOOL(lowres, false, "Nuts&Bolts", "Makes the game 480p");
 REXCVAR_DEFINE_DOUBLE(fpsCount, 0.0, "Nuts&Bolts","");  // This would be a frame timer display that updates every frame
-
+REXCVAR_DEFINE_BOOL(disable_lod,false, "Nuts&Bolts", "Disables LOD (Level of Detail) scaling.");
 
 inline int bWidth = 640;
 inline int bHeight = 480;
@@ -64,4 +64,8 @@ bool meGetResolutionParams_hook(PPCRegister& r5, PPCRegister& r6){
 
 void Optimization_Hook(){
   std::this_thread::yield();
+}
+
+bool disable_lod() {
+    return REXCVAR_GET(disable_lod);
 }

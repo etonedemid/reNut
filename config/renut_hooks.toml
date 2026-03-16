@@ -37,3 +37,10 @@ address = 0x8228F610
 name = "Optimization_Hook"
 registers = []
 after_instruction = false
+
+ [[midasm_hook]]
+ address = 0x82b680f8
+ name = "disable_lod"
+ registers = []
+ after_instruction = false
+ jump_address_on_true = 0x82B68110
