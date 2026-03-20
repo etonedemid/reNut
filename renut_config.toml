@@ -50,6 +50,8 @@ longjmp_address = 0x82BB59B0
 0x82cdca00 = {}
 0x82cdca40 = {}
 
+0x822C7D08 = {name = "rex_sub_822C7D08"}
+0x82363ED0 = {name = "rex_gameFlagsSetFlag_82363ED0"}
 
 [[midasm_hook]]
 address = 0x825A9110
@@ -91,3 +93,8 @@ name = "Optimization_Hook"
 registers = []
 after_instruction = false
 
+[[midasm_hook]]
+address = 0x822C7F0C
+name = "StopNSwap_hook"
+registers = ["r22"]
+after_instruction = true
