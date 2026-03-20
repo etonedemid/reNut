@@ -71,3 +71,10 @@ name = "Infinite_health"
 registers = []
 after_instruction = false
 jump_address_on_true = 0x823F47D0
+
+[[midasm_hook]]
+address = 0x82526200
+name = "No_Timer"
+registers = []
+after_instruction = false
+jump_address_on_true = 0x8252620C

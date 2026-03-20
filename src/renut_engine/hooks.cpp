@@ -26,7 +26,8 @@ REXCVAR_DEFINE_BOOL(infinite_fuel_and_ammo, false, "Nuts&Bolts", "fuel never dec
 REXCVAR_DEFINE_BOOL(infinite_health, false, "Nuts&Bolts", "health never decreases");
 // Name = "Infinite Weight and Capacity"
 REXCVAR_DEFINE_BOOL(infinite_weight_and_capacity, false, "Nuts&Bolts", "weight and parts capacity never decreases in mumbos motors");
-
+// Name = "No Timer"
+REXCVAR_DEFINE_BOOL(no_timer, false, "Nuts&Bolts", "timer never goes past 0 in missions with a timer");
 
 
 
@@ -100,6 +101,14 @@ bool Infinite_weight_part_capacity() {
 
 bool Infinite_health() {
     if (REXCVAR_GET(infinite_health)) {
+        return true;
+    }
+    return false;
+}
+
+
+bool No_Timer() {
+    if (REXCVAR_GET(no_timer)) {
         return true;
     }
     return false;
