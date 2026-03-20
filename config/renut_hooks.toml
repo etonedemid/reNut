@@ -5,7 +5,6 @@ registers = []
 after_instruction = false
 jump_address_on_true = 0x825A8F24
 
-
 [[midasm_hook]]
 address = 0x824CE324
 name = "no_notes_spent"
@@ -38,9 +37,17 @@ name = "Optimization_Hook"
 registers = []
 after_instruction = false
 
- [[midasm_hook]]
- address = 0x82b680f8
- name = "disable_lod"
- registers = []
- after_instruction = false
- jump_address_on_true = 0x82B68110
+[[midasm_hook]]
+address = 0x82b680f8
+name = "disable_lod"
+registers = []
+after_instruction = false
+jump_address_on_true = 0x82B68110
+
+
+[[midasm_hook]]
+address = 0x82278380
+name = "Infinite_fuel_and_ammo"
+registers = []
+after_instruction = false
+return = true
