@@ -51,3 +51,9 @@ name = "Infinite_fuel_and_ammo"
 registers = []
 after_instruction = false
 return = true
+
+[[midasm_hook]]
+address = 0x822C7F0C
+name = "StopNSwap_hook"
+registers = ["r22"]
+after_instruction = true

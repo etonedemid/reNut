@@ -14,6 +14,7 @@ include(generated/rexglue.cmake)
 set(RENUT_SOURCES
     src/main.cpp
     src/renut_engine/hooks.cpp
+    src/renut_engine/StopNSwap.cpp
 )
 
 if(WIN32)
