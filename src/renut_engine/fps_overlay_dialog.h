@@ -2,8 +2,8 @@
 #include <rex/cvar.h>
 #include <rex/ui/imgui_dialog.h>
 #include "imgui.h"
+#include "globals.h"
 
-REXCVAR_DECLARE(double, fpsCount);
 REXCVAR_DEFINE_BOOL(show_fps_overlay, false, "Nuts&Bolts", "Show FPS overlay");
 
 class FpsOverlayDialog : public rex::ui::ImGuiDialog {
@@ -19,7 +19,7 @@ public:
 
         if (!REXCVAR_GET(show_fps_overlay)) return;
 
-        const double fps = REXCVAR_GET(fpsCount);
+        const double fps = fpsCount;
 
         ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f));
         ImGui::SetNextWindowBgAlpha(0.0f);
