@@ -24,11 +24,11 @@ REXCVAR_DEFINE_BOOL(disable_lod, false, "Nuts&Bolts", "Disables LOD (Level of De
 REXCVAR_DEFINE_BOOL(infinite_fuel_and_ammo, false, "Nuts&Bolts", "fuel never decreases");
 // Name = "Infinite Health"
 REXCVAR_DEFINE_BOOL(infinite_health, false, "Nuts&Bolts", "health never decreases");
-// Name = "Infinite Weight and Capacity"
-REXCVAR_DEFINE_BOOL(infinite_weight_and_capacity, false, "Nuts&Bolts", "weight and parts capacity never decreases in mumbos motors");
 // Name = "No Timer"
 REXCVAR_DEFINE_BOOL(no_timer, false, "Nuts&Bolts", "timer never goes past 0 in missions with a timer");
-
+// Name = "Banjo Skins"
+REXCVAR_DEFINE_STRING(banjo_skin, "default", "Nuts&Bolts/Skins", "Banjo skin override")
+.allowed({ "default", "robot", "tuxedo" });
 
 
 inline int bWidth = 640;
@@ -92,13 +92,6 @@ void Infinite_fuel_and_ammo() {
     }
 }
 
-bool Infinite_weight_part_capacity() {
-    if (REXCVAR_GET(infinite_weight_and_capacity)) {
-        return true;
-    }
-    return false;
-}
-
 bool Infinite_health() {
     if (REXCVAR_GET(infinite_health)) {
         return true;
@@ -112,4 +105,23 @@ bool No_Timer() {
         return true;
     }
     return false;
+}
+
+bool BanjoActorOverride(PPCRegister& r3, PPCRegister& r5) {
+    const auto& skin = REXCVAR_GET(banjo_skin);
+
+    if (skin == "robot") {
+        r3.u32 = 0x8216B690;  // "robotbanjo_actor"
+        r5.u32 = 0;
+        return false;
+    }
+
+    if (skin == "tuxedo") {
+        r3.u32 = 0x8216B6A4;  // "tuxedobanjo_actor"
+        r5.u32 = 0;
+        return false;
+    }
+
+    // "default" — let the original function run
+    return true;
 }

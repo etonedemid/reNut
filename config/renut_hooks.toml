@@ -59,13 +59,6 @@ registers = ["r22"]
 after_instruction = true
 
 [[midasm_hook]]
-address = 0x82288310
-name = "Infinite_weight_part_capacity"
-registers = []
-after_instruction = false
-jump_address_on_true = 0x82288318
-
-[[midasm_hook]]
 address = 0x823F47C8
 name = "Infinite_health"
 registers = []
@@ -78,3 +71,11 @@ name = "No_Timer"
 registers = []
 after_instruction = false
 jump_address_on_true = 0x8252620C
+
+[[midasm_hook]]
+address = 0x8251CA9C
+name = "BanjoActorOverride"
+registers = ["r3", "r5"]
+after_instruction = true
+return_on_true = true
+jump_address_on_false = 0x8251CABC
