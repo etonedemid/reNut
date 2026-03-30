@@ -8,6 +8,11 @@
 Created with <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
 
 
+DISCORD
+--------------------------------------------
+we have a discord, please join and direct any questions there, me or someone will happily answer them
+
+https://discord.gg/D5Bz2ZsHdY
 
 
 
@@ -87,8 +92,6 @@ SOME ANIMATIONS ARE UNFINISHED (I.E. SOME ATTACKS DONT GO FULL CIRCLE BUT ARE ST
 
 MAKING ISSUES
 --------------------------------------------------------------------------
-Remember that this game and rexglue are in an experimental state, there are some issues i myself cannot fix and there may even be some that rexglue cant fix
-if you make an issue you will need to be a bit specific 
-
+Remember that this game and rexglue are in an experimental state. aside from the known issues you may run into other things (possibly other crashes). to make an issue please use the crash issue template and fill it out appropriately. direct any questions that arent crashes to the discord. 
 
 
