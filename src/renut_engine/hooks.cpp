@@ -15,9 +15,11 @@ REXCVAR_DEFINE_BOOL(overworld_vehicles, false, "Nuts&Bolts", "Enables Overworld 
 // Name = "No Notes Spent"
 REXCVAR_DEFINE_BOOL(no_notes_spent, false, "Nuts&Bolts", "hook created by serenity");
 // Name = "VSync Mode"
-REXCVAR_DEFINE_INT32(vsync, 0, "Nuts&Bolts", "Immediate (0) 60Hz (1) 30Hz (2) VSync = 30Hz, Threshold 20 (7)")
-.range(0, 7)
-.lifecycle(rex::cvar::Lifecycle::kRequiresRestart);
+REXCVAR_DEFINE_INT32(target_fps, 30, "Nuts&Bolts/Performance", "Target frame rate cap. 30 = original, 60 = unlocked")
+.range(30, 60)
+.validator([](std::string_view v) {
+    return v == "30" || v == "60";
+    });
 // Name = "Disable LOD"
 REXCVAR_DEFINE_BOOL(disable_lod, false, "Nuts&Bolts", "Disables LOD (Level of Detail) scaling");
 // Name = "Infinite Fuel and Ammo"
@@ -54,9 +56,10 @@ bool no_notes_spent() {
     return false;
 }
 
-void fps_hook(PPCRegister& r3) {
-
-    r3.u64 = REXCVAR_GET(vsync);
+void fps_hook(PPCRegister & r11) {
+    if (REXCVAR_GET(target_fps) == 60) {
+        r11.u32 = 1; 
+    }
 }
 
 void fpsCount_hook() {
