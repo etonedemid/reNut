@@ -4,7 +4,6 @@
 !out/build/win-amd64-relwithdebinfo/renut.exe
 
 assets/
-generated/
 .vs/
 
 /out/build/win-amd64-debug
