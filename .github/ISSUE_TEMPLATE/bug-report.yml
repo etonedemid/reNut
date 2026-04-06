@@ -1,41 +1,25 @@
 name: Crash Report
-description: Template For Crash Report
-title: '[Crash]: '
+description: Used for reporting crashes in game
+title: '[Crash]:'
 body:
-  - type: dropdown
-    id: reNut-or-reNut-Launcher
-    attributes:
-      label: reNut-or-reNut-Launcher
-      description: select reNut if the game crashed, reNut-Launcher if launcher crashed
-      options:
-        - reNut.exe
-        - reNut-Launcher.exe
-    validations:
-      required: true
-      
   - type: textarea
-    id: reNut
+    id: Crash
     attributes:
-      label: reNut
-      description: >-
-        say exactly where in the game it crashed and what you were doing before
-        the crash (i.e. Mumbo's Motors, saving cart, crash happens after text
-        input)
-      placeholder: if crash happens with reNut launcher please fill any spaces with N/A
-      value: if crash happens with reNut launcher please fill any spaces with N/A
-      render: if crash happens with reNut launcher please fill any spaces with N/A
+      label: Where did it crash?
+      description: Where and what were you doing when the game crashed?
+      placeholder: >-
+        Please be as specific as possible, you must state where the crash
+        happens and provide your save file
+      value: >-
+        Please be as specific as possible, you must state where the crash
+        happens and provide your save file
+      render: >-
+        Please be as specific as possible, you must state where the crash
+        happens and provide your save file
     validations:
       required: true
-      
-  - type: textarea
-    id: reNut-Launcher
+  - type: markdown
     attributes:
-      label: reNut-Launcher
-      description: say exactly what action you were performing before the launcher crashed
-      placeholder: if crash happens with reNut please fill any spaces with N/A
-      value: if crash happens with reNut please fill any spaces with N/A
-      render: if crash happens with reNut please fill any spaces with N/A
-    validations:
-      required: true
-      
-
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
