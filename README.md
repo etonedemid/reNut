@@ -10,7 +10,7 @@ Created with <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
 
 DISCORD
 --------------------------------------------
-we have a discord, please join and direct any questions there, me or someone will happily answer them
+We have a discord, please join and direct any questions there. Myself or someone else will happily answer them.
 
 https://discord.gg/D5Bz2ZsHdY
 
@@ -26,7 +26,7 @@ SolarCookies for midasm hooks and future use of CRT functions and the reNut Laun
 <br>
 ValcomDrifty for the renut logo
 <br>
-etonemid for the linux build/fixes
+etonedemid for the linux build/fixes
 <br>
 .
 <br>
@@ -50,50 +50,36 @@ REQUIREMENTS
 US version of banjo-kazooie: nuts and bolts default.xex
 
 
-How to Use
--------------------------------------------
-1. Download the reNut Launcher from <a href="https://github.com/masterspike52/reNut/releases/">Releases</a>
-2. click file > set game folder to pick your prefered install location (if you dont the default will be in the root of the launcher folder)
-3. open the launcher and select "select game iso" and select your banjo kazooie nuts and bolts (US) iso
-4. when its done dumping your iso select download
-5. after its done downloading select launch game
-
-   HUGE CREDITS TO SOLAR COOKIES FOR MAKING THE LAUNCHER, HE PUT A LOT OF HARD WORK INTO IT, HE HAS ALSO APPROVED OF USING THE CODE TO MAKE YOUR OWN, YOU CAN FIND IT <a href="https://github.com/SolarCookies/reNut-Launcher">HERE</a> 
-
-
-
 HOW TO BUILD
------------------------------------------------------------------------------------
-1. Install Rexglue-SDk following the <a href="https://github.com/rexglue/rexglue-sdk/wiki/Guide-%E2%80%90-Getting-Started">wiki</a>
-2. install Visual Studio Community edition and ensure you install the desktop development with C++ and make sure you check the box that says C++ clang compiler for windows (note: if you are using Mac or linux you can skip this for you will have to follow the wiki linked in step 1 to build the game)
-3. clone/download the repository
-4. dump your copy of Banjo-Kazooie: Nuts&bolts and use a tool like ISO-Extract to dump the contents of the iso (INCLUDING THE DEFAULT.XEX FILE)
-5. place the contents of the iso in the assets folder(INCLUDING THE DEFAULT.XEX FILE)
-6. open the folder in visual studio, go into cmake targets view
-7. change the configuration to win-amd64-relwithdebinfo
-8. put rexglue.exe in your path environment variable and do ```rexglue codegen renut_config.toml``` in a terminal (visual studios works, or you can use windows default terminal/cmd/powershell)
-10. right click reNut project and select build all
-11. copy the assets folder with the dumped contents of the iso in out/build/win-amd64-relwithdebinfo
+------------------------------------------------------
+NOTE: YOU MUST DELETE ALL INSTANCES OF .gitignore OTHERWISE WHATEVER YOU COMPILE WITH WONT SEE THE FILES IN THE AREAS THEY ARE IN.
+<br>
+NOTE: YOU MUST INSTALL <a href="https://git-scm.com/install/windows">GIT</a> BEFORE INSTALLING THE REXGLUE-SDK, OR BUILDING THIS REPO.
+<br>
+NOTE: YOU MUST INSTALL THE REXGLUE-SDK TO BUILD PLEASE FOLLOW THE <a href="https://github.com/rexglue/rexglue-sdk/wiki/Getting-Started">REXGLUE-SDK WIKI</a> BEFORE CONTINUING.
 
+1. Clone the repository with ```git clone https://github.com/masterspike52/reNut.git```
+2. Inside the assets folder you need to extract your banjo-kazooie: Nuts&Bolts iso's contents and the default.xex. I reccomend using <a href="https://consolemods.org/wiki/images/5/5f/XBOX360_ISO_Extract.zip">iso extract</a>. (I don't know what linux users use. I use Windows, however iso extract does work on linux through WINE.)
+3. Inside your cloned git open a terminal and run ```rexglue migrate --app_root .``` This ensures that if anything with codegen changes on Rexglue, you can codegen properly.
+   3b. You must then either delete your out folder, or if your on Windows you can open VS, right click your cmakelists.txt, and delete cache and reconfigure so you codegen with the version your using.
+4. You can now open a terminal and run ```rexglue codegen renut_config.toml``` which will give you the ppc files to recompile in the generated folder.
+5. If you're on Windows, you can open the project in VS, change the build type to `win-amd64-relwithdebinfo`, then build all.
+   5b. If you're on Linux, and don't have access to VS, you will need to use a terminal and run ```cmake --preset linux-amd64-relwithdebinfo``` and then ```cmake --build --preset linux-amd64-relwithdebinfo```. (You can do this on Windows as well, just replace `linux` with `windows`.)
+6. Once its compiled, you need to have the built exe in the same directory as the assets, otherwise the game won't open.
 
+IF YOU DONT WANT TO BUILD
+--------------------------------------------
+Building is mainly for those who either would rather build or want to help develop the game with myself and others. If you don't want to build;
+- Download the latest release for your platform
+- Make an assets folder, and dump your iso's contents and the default.xex into said folder
+- In the root directory where you put those assets, put the executable/application
 
+KNOWN ISSUES
+-----------------------------------------------
+1. Animations are a little jank (there's jitter, banjo's and others bones break, some of the animations are half done, and some other little ancillaries) but they do not inhibit gameplay, it's just funny to see happen.
+2. *Nutty Acres Act 5 - Humbas Mission* causes a crash. This may require a Rexglue update, for it may have something to do with how Rexglue handles certain opcodes and things like `enableflushbuffer`. (It will be worked on, but for now just don't do it. I do apologize to the completionists out there.)
 
-PREFFERED METHOD OF RUNNING THE GAME
------------------------------------------------------------
-open a terminal and do ```.\renut --gpu_allow_invalid_fetch_constants=true``` to prevent some hangs in game
-
-if your using something like cmd or similar you only need to run ```renut --gpu_allow_invalid_fetch_constants=true``` 
-
-
-KNOWN ISSUE!!!!
-------------------------------------------------------------------------------
-BANJOS WRISTS LIKE TO SHATTER AMONGST OTHER CHARACTERS, IT IS NOT A HORRENDOUS THING JUST FUNNILY NOTICEABLE BUT DOES NOT INHIBIT GAMEPLAY
-SOME ANIMATIONS ARE UNFINISHED (I.E. SOME ATTACKS DONT GO FULL CIRCLE BUT ARE STILL ACTIVE THE SAME WAY, AGAIN DOESNT INHIBIT GAMEPLAY, JUST KINDA FUNNY)
-
-
-
-MAKING ISSUES
---------------------------------------------------------------------------
-Remember that this game and rexglue are in an experimental state. aside from the known issues you may run into other things (possibly other crashes). to make an issue please use the crash issue template and fill it out appropriately. direct any questions that arent crashes to the discord. 
-
-
+MAKING AN ISSUE
+--------------------------
+The Issues tab is a place for things like crashes that happen in game that arent already noted, please refrain from making issues like "Game wont open" or "Have to use ISOs?".
+You must use the crash template for any issues that pertain to crashes (I'll probably make other templates), for I don't need it flooded with mostly user error posts. Please join the discord and use the #help channel if you have an issue unrelated to a crash.
