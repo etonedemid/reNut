@@ -1,0 +1,13 @@
+# Auto-generated cvar configuration
+license_mask = 1
+video_mode_refresh_rate = 120.0
+target_fps = 60
+banjo_skin = "tuxedo"
+vulkan_async_skip_incomplete_frames = false
+gpu_allow_invalid_fetch_constants = true
+native_2x_msaa = false
+depth_float24_round = true
+anisotropic_override = 0
+execute_unclipped_draw_vs_on_cpu = true
+mnk_mode = true
+execute_unclipped_draw_vs_on_cpu = true
