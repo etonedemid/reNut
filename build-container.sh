@@ -18,8 +18,10 @@ docker run --rm \
   -w /src/reNut \
   "$IMAGE_NAME" \
   bash -c '
-    cmake --preset linux-amd64-relwithdebinfo 2>&1 && \
-    cmake --build out/build/linux-amd64-relwithdebinfo --target renut -j$(nproc) 2>&1
+    cmake --preset linux-amd64-relwithdebinfo \
+      -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc" 2>&1 && \
+    cmake --build out/build/linux-amd64-relwithdebinfo --target renut -j$(nproc) 2>&1 && \
+    strip --strip-unneeded out/build/linux-amd64-relwithdebinfo/renut
   '
 
 BINARY="$RENUT_DIR/out/build/linux-amd64-relwithdebinfo/renut"
