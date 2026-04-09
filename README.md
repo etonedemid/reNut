@@ -94,6 +94,7 @@ KNOWN ISSUES
 1. Animations are a little jank (there's jitter, banjo's and others bones break, some of the animations are half done, and some other little ancillaries) but they do not inhibit gameplay, it's just funny to see happen.
 2. The Jiggy Challenge "Old Dog, New Tricks" in Nutty Acres Act 5 will crash the game when starting it.
 3. Water doesn't render (Atleast on linux)
+4. The Jiggy Challenge Even Older Dog, Newer Tricks crashes similarly to 2.
 
 MAKING AN ISSUE
 --------------------------
