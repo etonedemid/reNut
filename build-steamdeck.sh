@@ -38,12 +38,12 @@ if command -v steamos-readonly &>/dev/null && steamos-readonly status 2>/dev/nul
     READONLY_DISABLED=1
 fi
 
-# Initialise pacman keyring if needed (fresh SteamOS installs)
-if ! sudo pacman -Q archlinux-keyring &>/dev/null; then
-    info "Initialising pacman keyring…"
-    sudo pacman-key --init
-    sudo pacman-key --populate archlinux
-fi
+# Initialise pacman keyring and trust SteamOS signing keys.
+# SteamOS packages are signed by Valve's CI key (holo keyring), not the
+# standard Arch keyring — both must be populated or pacman rejects packages.
+info "Refreshing pacman keyring (Arch + SteamOS)…"
+sudo pacman-key --init
+sudo pacman-key --populate archlinux holo
 
 sudo pacman -Sy --noconfirm --needed \
     base-devel \
