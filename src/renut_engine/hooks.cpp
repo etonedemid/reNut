@@ -148,3 +148,4 @@ bool BanjoActorOverride(PPCRegister& r3, PPCRegister& r5) {
     // "default" — let the original function run
     return true;
 }
+

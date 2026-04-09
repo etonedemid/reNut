@@ -6,6 +6,7 @@
 #include <rex/rex_app.h>
 #include "renut_engine/overlays/fps_overlay_dialog.h"
 #include "renut_engine/overlays/renut_logging_overlay.h"
+#include "renut_engine/sleep.h"
 
 
 
@@ -25,6 +26,11 @@ public:
 
     void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override {
         drawer->AddDialog(new FpsOverlayDialog(drawer));
+        drawer->AddDialog(new RenuLogOverlayDialog(drawer));
+    }
+
+    void OnShutdown() override {
+        DisableHighResTimer();
     }
     //void OnConfigurePaths(rex::PathConfig& paths) override {
     //    // Redirect game data root from assets/debug to assets/bundle
