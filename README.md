@@ -57,10 +57,7 @@ NOTE: YOU MUST DELETE ALL INSTANCES OF .gitignore OTHERWISE WHATEVER YOU COMPILE
 <br>
 NOTE: YOU MUST INSTALL <a href="https://git-scm.com/install/windows">GIT</a> BEFORE INSTALLING THE REXGLUE-SDK, OR BUILDING THIS REPO.
 <br>
-NOTE: IF YOUR BUILDING FOR LINUX YOU MUST BUILD and INSTALL THIS FORK OF <a href="https://github.com/etonedemid/rexglue-sdk">REXGLUE-SDK</a> BEFORE CONTINUING.
-<br>
-NOTE: IF YOUR BUILDING FOR WINDOWS PLEASE BUILD AND INSTALL THE MAIN REPO OF <a href="https://github.com/rexglue/rexglue-sdk">Rexglue-SDK</a>
-
+NOTE: YOU MUST BUILD and INSTALL THIS FORK OF <a href="https://github.com/etonedemid/rexglue-sdk">REXGLUE-SDK</a> BEFORE CONTINUING.
 
 1. Clone the repository with ```git clone https://github.com/masterspike52/reNut.git```
 2. Inside the assets folder you need to extract your banjo-kazooie: Nuts&Bolts iso's contents and the default.xex. I reccomend using <a href="https://consolemods.org/wiki/images/5/5f/XBOX360_ISO_Extract.zip">iso extract</a>. (I don't know what linux users use. I use Windows, however iso extract does work on linux through WINE.)
@@ -93,7 +90,7 @@ KNOWN ISSUES
 -----------------------------------------------
 1. Animations are a little jank (there's jitter, banjo's and others bones break, some of the animations are half done, and some other little ancillaries) but they do not inhibit gameplay, it's just funny to see happen.
 2. *Nutty Acres Act 5 - Humbas Mission* causes a crash. This may require a Rexglue update, for it may have something to do with how Rexglue handles certain opcodes and things like `enableflushbuffer`. (It will be worked on, but for now just don't do it. I do apologize to the completionists out there.)
-3. Water doesn't render (Atleast on linux)
+
 
 MAKING AN ISSUE
 --------------------------
