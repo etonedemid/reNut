@@ -25,6 +25,7 @@ public:
 
     void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override {
         drawer->AddDialog(new FpsOverlayDialog(drawer));
+         drawer->AddDialog(new RenuLogOverlayDialog(drawer));
     }
     //void OnConfigurePaths(rex::PathConfig& paths) override {
     //    // Redirect game data root from assets/debug to assets/bundle
