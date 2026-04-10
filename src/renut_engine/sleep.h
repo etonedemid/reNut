@@ -1,19 +1,27 @@
+#pragma once
 #include "renut_logging.h"
 #include <chrono>
-#include <timeapi.h> 
+#include <thread>
+#ifdef _WIN32
+#include <timeapi.h>
+#endif
 
 
 std::once_flag g_timer_init;
 
 void EnableHighResTimer() {
     std::call_once(g_timer_init, [] {
+#ifdef _WIN32
         timeBeginPeriod(1);
+#endif
         RNUT_INFO("[threading] high-res timer enabled");
         });
 }
 
 void DisableHighResTimer() {
+#ifdef _WIN32
     timeEndPeriod(1);
+#endif
     RNUT_INFO("[threading] high-res timer disabled");
 }
 
@@ -22,7 +30,11 @@ ppc_u32_result_t Sleep_hook(ppc_u32_t ms) {
     EnableHighResTimer();
 
     if (ms == 0) {
+#ifdef _WIN32
         SwitchToThread();
+#else
+        sched_yield();
+#endif
         return 0;
     }
 
@@ -35,7 +47,11 @@ ppc_u32_result_t Sleep_hook(ppc_u32_t ms) {
     }
     else {
         // Must yield to OS so lower-priority threads get scheduled
+#ifdef _WIN32
         ::Sleep(1);
+#else
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+#endif
     }
 
     while (std::chrono::steady_clock::now() < target)
