@@ -29,21 +29,21 @@ ValcomDrifty for the renut logo
 <br>
 etonedemid for the linux build/fixes
 <br>
-.
+
 <br>
-.
+
 <br>
-.
+
 <br>
-.
+
 <br>
-.
+
 <br>
-.
+
 <br>
 you, the player?
 <br>
-.
+
 
 
 REQUIREMENTS
