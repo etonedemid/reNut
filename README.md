@@ -81,9 +81,95 @@ Building is mainly for those who either would rather build or want to help devel
 
 If you are on linux
 --------------------------------------
-* Download the latest linux release from releases
-* run ```./launch.sh '/path/to/iso'``` (/path/to/iso being where you have your iso)
-* any launches after the first only require ```./launch.sh ```
+
+Prerequisites
+
+- US version of **Banjo-Kazooie: Nuts & Bolts** `default.xex`
+- Git
+
+1. Install dependencies
+
+ Arch / Manjaro / SteamOS
+
+```bash
+sudo pacman -S --needed base-devel clang lld ninja cmake pkgconf python3 git \
+    gtk3 pango harfbuzz fontconfig freetype2 cairo gdk-pixbuf2 glib2 \
+    at-spi2-core libx11 libxcb libpipewire vulkan-headers vulkan-icd-loader \
+    alsa-lib libpulse libusb libunwind dbus ibus systemd systemd-libs
+```
+
+ Ubuntu / Debian
+
+```bash
+sudo apt install build-essential clang lld ninja-build cmake pkg-config python3 git \
+    libgtk-3-dev libpango1.0-dev libharfbuzz-dev libfontconfig-dev libfreetype-dev \
+    libcairo2-dev libgdk-pixbuf-2.0-dev libglib2.0-dev libatspi2.0-dev \
+    libx11-dev libxcb1-dev libpipewire-0.3-dev vulkan-headers libvulkan-dev \
+    libasound2-dev libpulse-dev libusb-1.0-0-dev libunwind-dev libdbus-1-dev \
+    libibus-1.0-dev libsystemd-dev libudev-dev
+```
+
+ Fedora
+
+```bash
+sudo dnf install @development-tools clang lld ninja-build cmake pkgconf python3 git \
+    gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel \
+    cairo-devel gdk-pixbuf2-devel glib2-devel at-spi2-core-devel \
+    libX11-devel libxcb-devel pipewire-devel vulkan-headers vulkan-loader-devel \
+    alsa-lib-devel pulseaudio-libs-devel libusb1-devel libunwind-devel dbus-devel \
+    ibus-devel systemd-devel
+```
+
+> **Note:** CMake ≥ 3.25 is required. If your distro ships an older version, install a newer one from [cmake.org](https://cmake.org/download/) or via pip (`pip install cmake`).
+
+ 2. Clone the repositories
+
+Clone reNut and the rexglue-sdk **side-by-side** (the build system auto-detects the SDK when it's in `../rexglue-sdk`):
+
+```bash
+git clone https://github.com/masterspike52/reNut.git
+git clone https://github.com/etonedemid/rexglue-sdk.git
+```
+
+Your directory layout should look like:
+
+```
+parent/
+├── reNut/
+└── rexglue-sdk/
+```
+
+ 3. Set up game assets
+
+Extract your Banjo-Kazooie: Nuts & Bolts ISO contents and `default.xex` into the `reNut/assets/` folder.
+
+ 4. Build
+
+```bash
+cd reNut
+cmake --preset linux-amd64-relwithdebinfo
+cmake --build --preset linux-amd64-relwithdebinfo -j$(nproc)
+```
+
+The binary will be at `out/build/linux-amd64-relwithdebinfo/renut`.
+
+ Other build types
+
+| Preset | Use case |
+|---|---|
+| `linux-amd64-debug` | Debug build |
+| `linux-amd64-release` | Optimized release |
+| `linux-amd64-relwithdebinfo` | Release with debug symbols (recommended) |
+
+ 5. Run
+
+```bash
+cd out/build/linux-amd64-relwithdebinfo
+./launch.sh
+```
+
+Point it at your Banjo-Kazooie: Nuts & Bolts (US) ISO.
+
 
 
 KNOWN ISSUES
