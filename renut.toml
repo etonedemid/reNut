@@ -1,10 +1,25 @@
 # Auto-generated cvar configuration
 license_mask = 1
 protect_zero = true
-vulkan_async_skip_incomplete_frames = false
 gpu_allow_invalid_fetch_constants = true
-native_2x_msaa = false
-depth_float24_round = true
-anisotropic_override = 0
 execute_unclipped_draw_vs_on_cpu = true
 mnk_mode = true
+
+# --- Accuracy ---
+native_2x_msaa = true
+depth_float24_round = true
+depth_transfer_not_equal_test = true
+gamma_render_target_as_unorm16 = true
+snorm16_render_target_full_range = true
+direct_host_resolve = true
+vulkan_precise_interpolation = true
+spirv_version_override = "auto"
+
+# --- Performance ---
+vulkan_async_skip_incomplete_frames = true
+async_shader_compilation = true
+anisotropic_override = 16
+texture_cache_memory_limit_soft = 1024
+texture_cache_memory_limit_hard = 4096
+texture_cache_memory_limit_render_to_texture = 128
+occlusion_query = "fast"
