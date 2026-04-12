@@ -103,4 +103,3 @@ address = 0x8246c4c8
 name = "klungofps2"
 registers = []
 after_instruction = false
-jump_address_on_false = 0x8251CABC
