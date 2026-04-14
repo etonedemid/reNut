@@ -98,6 +98,8 @@ install_deps_arch() {
     _create_pc_shim "libsystemd" "-lsystemd"
     _create_pc_shim "libudev"    "-ludev"
     _create_pc_shim "harfbuzz"   "-lharfbuzz"
+    _create_pc_shim "x11"        "-lX11"
+    _create_pc_shim "x11-xcb"    "-lX11-xcb"
 
     if [ "$READONLY_DISABLED" -eq 1 ]; then
         info "Re-enabling SteamOS read-only filesystem."
