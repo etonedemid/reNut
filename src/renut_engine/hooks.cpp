@@ -117,9 +117,9 @@ bool No_Timer() {
     return false;
 }
 
-void Infinite_parts(PPCRegister& r11) {
+void Infinite_parts(PPCRegister& r10) {
     if (REXCVAR_GET(infinite_parts)) {
-        r11.u32 = 0x7F800000;
+        r10.u32 = 0x7F800000;
     }
 }
 
