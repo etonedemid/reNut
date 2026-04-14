@@ -76,9 +76,19 @@ install_deps_arch() {
         libunwind dbus ibus systemd systemd-libs
     )
 
+    # Packages whose .pc files are needed by cmake (SteamOS strips these via NoExtract)
+    local DEV_PKGS=(
+        gtk3 pango harfbuzz fontconfig freetype2 cairo
+        gdk-pixbuf2 glib2 at-spi2-core libx11 libxcb
+        xorgproto libxext libxrender libxau libxdmcp
+        pixman pcre2 zlib libpng libjpeg-turbo libtiff
+        util-linux shared-mime-info
+    )
+
     # Filter to only packages that are not already installed
     local MISSING=()
-    for pkg in "${ALL_PKGS[@]}"; do
+    local ALL_COMBINED=("${ALL_PKGS[@]}" "${DEV_PKGS[@]}")
+    for pkg in "${ALL_COMBINED[@]}"; do
         if ! pacman -Qi "$pkg" &>/dev/null; then
             MISSING+=("$pkg")
         fi
@@ -91,15 +101,21 @@ install_deps_arch() {
         sudo pacman -S --needed --noconfirm "${MISSING[@]}"
     fi
 
+    # On SteamOS, .pc files are stripped by NoExtract during initial package install.
+    # Force-reinstall dev packages (without --needed) to restore them.
+    if [ "$DISTRO" = "steamos" ]; then
+        if ! pkg-config --cflags x11-xcb &>/dev/null; then
+            info "Reinstalling dev packages to restore .pc files…"
+            sudo pacman -S --noconfirm "${DEV_PKGS[@]}"
+        fi
+    fi
+
     # Ensure pkg-config can find .pc files
     export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:${PKG_CONFIG_PATH:-}"
 
     # Generate shims for libsystemd/libudev if missing (common on SteamOS)
     _create_pc_shim "libsystemd" "-lsystemd"
     _create_pc_shim "libudev"    "-ludev"
-    _create_pc_shim "harfbuzz"   "-lharfbuzz"
-    _create_pc_shim "x11"        "-lX11"
-    _create_pc_shim "x11-xcb"    "-lX11-xcb"
 
     if [ "$READONLY_DISABLED" -eq 1 ]; then
         info "Re-enabling SteamOS read-only filesystem."
@@ -292,8 +308,8 @@ if [ -d "$BUILD_DIR" ]; then
 fi
 
 info "Configuring ($BUILD_PRESET)…"
-# Ensure pkg-config can find system .pc files (required for gtk3/pango/harfbuzz on SteamOS)
-export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:${PKG_CONFIG_PATH:-}"
+# Ensure shim .pc files take priority, then system paths
+export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig"
 cmake -S "$INSTALL_DIR" \
       -B "$BUILD_DIR" \
       -G Ninja \
