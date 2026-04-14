@@ -248,33 +248,28 @@ if [ "$CMAKE_OK" -eq 0 ]; then
 fi
 
 # ── Step 3: clone repos ──────────────────────────────────────────────────────
-# Helper: update a shallow clone that may be in detached HEAD state
+# Helper: update (or clone) a shallow clone of a specific branch.
+# Usage: git_update <dir> <repo> <branch>
 git_update() {
-    local dir="$1" repo="$2"
+    local dir="$1" repo="$2" branch="$3"
     if [ -d "$dir/.git" ]; then
         info "$(basename "$dir") already cloned — updating…"
-        git -C "$dir" fetch --depth 1 origin
-        # Determine the default remote branch
-        local branch
-        branch=$(git -C "$dir" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null \
-                 | sed 's|refs/remotes/origin/||' || true)
-        if [ -z "$branch" ]; then
-            # HEAD ref not set — ask the remote
-            branch=$(git -C "$dir" remote show origin 2>/dev/null \
-                     | awk '/HEAD branch/{print $NF}' || echo "main")
-        fi
-        git -C "$dir" checkout "$branch" 2>/dev/null || git -C "$dir" checkout -b "$branch" "origin/$branch" 2>/dev/null || true
+        git -C "$dir" fetch --depth 1 origin "$branch"
+        git -C "$dir" checkout "$branch" 2>/dev/null \
+            || git -C "$dir" checkout -b "$branch" "origin/$branch"
         git -C "$dir" reset --hard "origin/$branch"
     else
         info "Cloning $(basename "$dir")…"
-        git clone --depth 1 "$repo" "$dir"
+        git clone --depth 1 --branch "$branch" "$repo" "$dir"
     fi
 }
 
-git_update "$INSTALL_DIR" "$RENUT_REPO"
+RENUT_BRANCH="Linux"
+git_update "$INSTALL_DIR" "$RENUT_REPO" "$RENUT_BRANCH"
 
 SDK_DIR="$(dirname "$INSTALL_DIR")/rexglue-sdk"
-git_update "$SDK_DIR" "$SDK_REPO"
+SDK_BRANCH="main"
+git_update "$SDK_DIR" "$SDK_REPO" "$SDK_BRANCH"
 
 # ── Step 4: configure ────────────────────────────────────────────────────────
 BUILD_DIR="$INSTALL_DIR/out/build/$BUILD_PRESET"
