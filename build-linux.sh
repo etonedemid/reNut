@@ -70,7 +70,7 @@ install_deps_arch() {
     # Full list of desired packages
     local ALL_PKGS=(
         base-devel glibc linux-api-headers clang lld ninja cmake pkgconf
-        python3 git gtk3 pango harfbuzz fontconfig freetype2 cairo
+        python3 git curl gtk3 pango harfbuzz fontconfig freetype2 cairo
         gdk-pixbuf2 glib2 at-spi2-core libx11 libxcb libpipewire
         vulkan-headers vulkan-icd-loader alsa-lib libpulse libusb
         libunwind dbus ibus systemd systemd-libs
@@ -125,8 +125,8 @@ install_deps_arch() {
 
 install_deps_debian() {
     local ALL_PKGS=(
-        build-essential clang lld ninja-build cmake pkg-config python3 git
-        libgtk-3-dev libpango1.0-dev libharfbuzz-dev libfontconfig-dev
+        build-essential clang lld ninja-build cmake pkg-config python3 git curl
+        libcurl4-openssl-dev libgtk-3-dev libpango1.0-dev libharfbuzz-dev libfontconfig-dev
         libfreetype-dev libcairo2-dev libgdk-pixbuf-2.0-dev libglib2.0-dev
         libatspi2.0-dev libx11-dev libxcb1-dev libpipewire-0.3-dev
         vulkan-headers libvulkan-dev libasound2-dev libpulse-dev
@@ -153,7 +153,7 @@ install_deps_debian() {
 install_deps_fedora() {
     local ALL_PKGS=(
         @development-tools clang lld ninja-build cmake pkgconf python3 git
-        gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel
+        libcurl-devel gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel
         cairo-devel gdk-pixbuf2-devel glib2-devel at-spi2-core-devel
         libX11-devel libxcb-devel pipewire-devel vulkan-headers
         vulkan-loader-devel alsa-lib-devel pulseaudio-libs-devel
@@ -179,7 +179,7 @@ install_deps_fedora() {
 install_deps_suse() {
     local ALL_PKGS=(
         clang lld ninja cmake pkgconf python3 git
-        gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype2-devel
+        libcurl-devel gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype2-devel
         cairo-devel gdk-pixbuf-devel glib2-devel at-spi2-core-devel
         libX11-devel libxcb-devel pipewire-devel vulkan-headers
         libvulkan1 vulkan-devel alsa-devel libpulse-devel
