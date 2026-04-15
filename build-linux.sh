@@ -23,11 +23,13 @@ detect_distro() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         case "$ID" in
-            arch|manjaro|endeavouros) echo "arch" ;;
-            steamos)                  echo "steamos" ;;
-            ubuntu|debian|linuxmint|pop) echo "debian" ;;
-            fedora|rhel|centos|nobara) echo "fedora" ;;
+            arch|manjaro|endeavouros|chimeraos|cachyos) echo "arch" ;;
+            steamos|holo)             echo "steamos" ;;
+            ubuntu|debian|linuxmint|pop|zorin|elementary|kali) echo "debian" ;;
+            fedora|rhel|centos|nobara|bazzite|ultramarine) echo "fedora" ;;
             opensuse*|sles)           echo "suse" ;;
+            void)                     echo "void" ;;
+            gentoo)                   echo "gentoo" ;;
             *)
                 # Check ID_LIKE as fallback
                 case "${ID_LIKE:-}" in
@@ -267,18 +269,82 @@ EOF
     fi
 }
 
+install_deps_void() {
+    local ALL_PKGS=(
+        base-devel clang lld ninja cmake pkg-config python3 git curl
+        libcurl-devel gtk+3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel
+        cairo-devel gdk-pixbuf-devel glib-devel at-spi2-core-devel
+        libX11-devel libxcb-devel libXext-devel libXrender-devel
+        pipewire-devel Vulkan-Headers vulkan-loader
+        alsa-lib-devel pulseaudio-devel libusb-devel libunwind-devel
+        dbus-devel ibus-devel eudev-libudev-devel
+        pixman-devel zlib-devel libpng-devel libjpeg-turbo-devel tiff-devel
+        bzip2-devel brotli-devel libzstd-devel liblzma-devel
+        pcre2-devel shared-mime-info
+    )
+
+    info "Installing ${#ALL_PKGS[@]} package(s) via xbps…"
+    sudo xbps-install -Sy "${ALL_PKGS[@]}"
+}
+
+install_deps_gentoo() {
+    local ALL_PKGS=(
+        sys-devel/clang sys-devel/lld dev-build/ninja dev-build/cmake
+        dev-util/pkgconf dev-lang/python dev-vcs/git net-misc/curl
+        x11-libs/gtk+:3 x11-libs/pango media-libs/harfbuzz media-libs/fontconfig
+        media-libs/freetype x11-libs/cairo x11-libs/gdk-pixbuf dev-libs/glib
+        app-accessibility/at-spi2-core
+        x11-libs/libX11 x11-libs/libxcb x11-libs/libXext x11-libs/libXrender
+        media-libs/vulkan-headers media-libs/vulkan-loader
+        media-libs/alsa-lib media-sound/pulseaudio dev-libs/libusb sys-libs/libunwind
+        sys-apps/dbus app-i18n/ibus virtual/udev
+        x11-libs/pixman sys-libs/zlib media-libs/libpng media-libs/libjpeg-turbo
+        media-libs/tiff app-arch/bzip2 app-arch/brotli app-arch/zstd app-arch/xz-utils
+        dev-libs/libpcre2 x11-misc/shared-mime-info
+    )
+
+    info "Installing ${#ALL_PKGS[@]} package(s) via emerge…"
+    sudo emerge --noreplace "${ALL_PKGS[@]}"
+}
+
 info "Installing build dependencies…"
 case "$DISTRO" in
     arch|steamos) install_deps_arch ;;
     debian)       install_deps_debian ;;
     fedora)       install_deps_fedora ;;
     suse)         install_deps_suse ;;
+    void)         install_deps_void ;;
+    gentoo)       install_deps_gentoo ;;
     *)
-        warn "Unsupported distro — skipping automatic dependency install."
-        warn "Please install: clang lld ninja cmake git and the required dev libraries manually."
-        warn "See BUILD-LINUX.md for the full list."
+        warn "Unsupported distro ($DISTRO) — skipping automatic dependency install."
+        warn "You MUST install the following before building:"
+        warn "  Build tools: clang lld ninja cmake pkg-config git"
+        warn "  C library dev headers (REQUIRED — provides pthread.h):"
+        warn "    Debian/Ubuntu: sudo apt install build-essential libc6-dev"
+        warn "    Fedora/RHEL:   sudo dnf install glibc-devel"
+        warn "    Void:          sudo xbps-install -S base-devel"
+        warn "    Gentoo:        included with system"
+        warn "    NixOS:         nix-shell -p gcc gnumake cmake clang"
+        warn "  Libraries: gtk3 pango harfbuzz x11 xcb vulkan-headers alsa pulseaudio"
+        warn "  See BUILD-LINUX.md for the full list."
         ;;
 esac
+
+# ── Pre-flight: verify essential headers ──────────────────────────────────────
+# SDL3 requires pthreads; check that pthread.h is available before cmake runs.
+if command -v "${CC:-clang}" &>/dev/null; then
+    if ! echo '#include <pthread.h>' | "${CC:-clang}" -fsyntax-only -x c - 2>/dev/null; then
+        error "pthread.h not found — install your C library development headers.
+  Arch/SteamOS: sudo pacman -S glibc linux-api-headers
+  Debian/Ubuntu: sudo apt install libc6-dev
+  Fedora/RHEL: sudo dnf install glibc-devel
+  Void: sudo xbps-install -S base-devel
+  Gentoo: emerge sys-libs/glibc
+  NixOS: ensure glibc.dev is in your nix shell"
+    fi
+else
+    warn "No C compiler (clang) found — cannot verify pthread.h availability."
+fi
 
 # ── Step 2: check cmake version (need >= 3.25) ───────────────────────────────
 CMAKE_OK=0

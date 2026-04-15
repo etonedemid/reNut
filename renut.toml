@@ -1,10 +1,11 @@
 # Auto-generated cvar configuration
 license_mask = 1
-protect_zero = true
+scribble_heap = true
 gpu_allow_invalid_fetch_constants = true
 execute_unclipped_draw_vs_on_cpu = true
 mnk_mode = true
-scribble_heap = true
+readback_memexport = false
+readback_memexport_fast = false
 
 # --- Accuracy ---
 native_2x_msaa = true
