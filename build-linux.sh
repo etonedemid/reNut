@@ -6,7 +6,7 @@
 
 set -eu
 
-RENUT_REPO="https://github.com/masterspike52/reNut.git"
+RENUT_REPO="https://github.com/etonedemid/reNut.git"
 SDK_REPO="https://github.com/etonedemid/rexglue-sdk.git"
 INSTALL_DIR="$HOME/reNut"
 CMAKE_VERSION="3.27.9"
@@ -69,16 +69,52 @@ install_deps_arch() {
 
     # Full list of desired packages
     local ALL_PKGS=(
+        # Build tools
         base-devel glibc linux-api-headers clang lld ninja cmake pkgconf
-        python3 git gtk3 pango harfbuzz fontconfig freetype2 cairo
-        gdk-pixbuf2 glib2 at-spi2-core libx11 libxcb libpipewire
-        vulkan-headers vulkan-icd-loader alsa-lib libpulse libusb
-        libunwind dbus ibus systemd systemd-libs
+        python3 git curl
+        # GTK3 UI stack
+        gtk3 pango harfbuzz fontconfig freetype2 cairo
+        gdk-pixbuf2 glib2 at-spi2-core
+        # X11 / XCB
+        libx11 libxcb xorgproto libxext libxrender libxau libxdmcp libx11
+        # Audio / input / Vulkan
+        libpipewire vulkan-headers vulkan-icd-loader
+        alsa-lib libpulse libusb libunwind
+        dbus ibus systemd systemd-libs
+        # Transitive deps of gtk3/cairo/pango/etc. that need headers/.pc
+        pixman pcre2 zlib libpng libjpeg-turbo libtiff
+        bzip2 brotli zstd xz util-linux shared-mime-info
+    )
+
+    # Packages whose headers/.pc files are needed by cmake (SteamOS strips these via NoExtract).
+    # Must include every package that provides a .pc file or header consumed during configure.
+    local DEV_PKGS=(
+        # Direct cmake requirements
+        curl
+        # GTK3 + full transitive dependency chain
+        gtk3 pango harfbuzz fontconfig freetype2 cairo
+        gdk-pixbuf2 glib2 at-spi2-core
+        # X11 / XCB stack
+        libx11 libxcb xorgproto libxext libxrender libxau libxdmcp
+        # Cairo transitive deps
+        pixman
+        # glib2 transitive deps
+        pcre2
+        # Image / compression libs (cairo, gdk-pixbuf, freetype2, libtiff deps)
+        zlib libpng libjpeg-turbo libtiff
+        bzip2 brotli zstd xz
+        # gio-2.0 transitive deps
+        util-linux shared-mime-info
+        # SDL3 runtime detection (audio, input)
+        alsa-lib libpulse libpipewire dbus libusb libunwind
+        # Vulkan
+        vulkan-headers vulkan-icd-loader
     )
 
     # Filter to only packages that are not already installed
     local MISSING=()
-    for pkg in "${ALL_PKGS[@]}"; do
+    local ALL_COMBINED=("${ALL_PKGS[@]}" "${DEV_PKGS[@]}")
+    for pkg in "${ALL_COMBINED[@]}"; do
         if ! pacman -Qi "$pkg" &>/dev/null; then
             MISSING+=("$pkg")
         fi
@@ -89,6 +125,15 @@ install_deps_arch() {
     else
         info "Installing ${#MISSING[@]} missing package(s): ${MISSING[*]}"
         sudo pacman -S --needed --noconfirm "${MISSING[@]}"
+    fi
+
+    # On SteamOS, headers and .pc files are stripped by NoExtract during initial install.
+    # Force-reinstall dev packages (without --needed) to restore them.
+    if [ "$DISTRO" = "steamos" ]; then
+        if ! test -f /usr/include/curl/curl.h || ! pkg-config --cflags x11-xcb &>/dev/null; then
+            info "Reinstalling dev packages to restore headers and .pc files…"
+            sudo pacman -S --noconfirm "${DEV_PKGS[@]}"
+        fi
     fi
 
     # Ensure pkg-config can find .pc files
@@ -106,13 +151,16 @@ install_deps_arch() {
 
 install_deps_debian() {
     local ALL_PKGS=(
-        build-essential clang lld ninja-build cmake pkg-config python3 git
-        libgtk-3-dev libpango1.0-dev libharfbuzz-dev libfontconfig-dev
+        build-essential clang lld ninja-build cmake pkg-config python3 git curl
+        libcurl4-openssl-dev libgtk-3-dev libpango1.0-dev libharfbuzz-dev libfontconfig-dev
         libfreetype-dev libcairo2-dev libgdk-pixbuf-2.0-dev libglib2.0-dev
-        libatspi2.0-dev libx11-dev libxcb1-dev libpipewire-0.3-dev
-        vulkan-headers libvulkan-dev libasound2-dev libpulse-dev
-        libusb-1.0-0-dev libunwind-dev libdbus-1-dev libibus-1.0-dev
-        libsystemd-dev libudev-dev
+        libatspi2.0-dev libx11-dev libx11-xcb-dev libxcb1-dev libxext-dev libxrender-dev
+        libpipewire-0.3-dev vulkan-headers libvulkan-dev
+        libasound2-dev libpulse-dev libusb-1.0-0-dev libunwind-dev
+        libdbus-1-dev libibus-1.0-dev libsystemd-dev libudev-dev
+        libpixman-1-dev zlib1g-dev libpng-dev libjpeg-dev libtiff-dev
+        libbz2-dev libbrotli-dev libzstd-dev liblzma-dev
+        libpcre2-dev shared-mime-info
     )
 
     local MISSING=()
@@ -133,12 +181,16 @@ install_deps_debian() {
 
 install_deps_fedora() {
     local ALL_PKGS=(
-        @development-tools clang lld ninja-build cmake pkgconf python3 git
-        gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel
+        @development-tools clang lld ninja-build cmake pkgconf python3 git curl
+        libcurl-devel gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype-devel
         cairo-devel gdk-pixbuf2-devel glib2-devel at-spi2-core-devel
-        libX11-devel libxcb-devel pipewire-devel vulkan-headers
-        vulkan-loader-devel alsa-lib-devel pulseaudio-libs-devel
-        libusb1-devel libunwind-devel dbus-devel ibus-devel systemd-devel
+        libX11-devel libxcb-devel libXext-devel libXrender-devel
+        pipewire-devel vulkan-headers vulkan-loader-devel
+        alsa-lib-devel pulseaudio-libs-devel libusb1-devel libunwind-devel
+        dbus-devel ibus-devel systemd-devel
+        pixman-devel zlib-devel libpng-devel libjpeg-turbo-devel libtiff-devel
+        bzip2-devel brotli-devel libzstd-devel xz-devel
+        pcre2-devel shared-mime-info
     )
 
     local MISSING=()
@@ -159,13 +211,16 @@ install_deps_fedora() {
 
 install_deps_suse() {
     local ALL_PKGS=(
-        clang lld ninja cmake pkgconf python3 git
-        gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype2-devel
+        clang lld ninja cmake pkgconf python3 git curl
+        libcurl-devel gtk3-devel pango-devel harfbuzz-devel fontconfig-devel freetype2-devel
         cairo-devel gdk-pixbuf-devel glib2-devel at-spi2-core-devel
-        libX11-devel libxcb-devel pipewire-devel vulkan-headers
-        libvulkan1 vulkan-devel alsa-devel libpulse-devel
-        libusb-1_0-devel libunwind-devel dbus-1-devel ibus-devel
-        systemd-devel libudev-devel
+        libX11-devel libxcb-devel libXext-devel libXrender-devel
+        pipewire-devel vulkan-headers libvulkan1 vulkan-devel
+        alsa-devel libpulse-devel libusb-1_0-devel libunwind-devel
+        dbus-1-devel ibus-devel systemd-devel libudev-devel
+        libpixman-1-0-devel zlib-devel libpng16-devel libjpeg8-devel libtiff-devel
+        libbz2-devel libbrotli-devel libzstd-devel xz-devel
+        pcre2-devel shared-mime-info
     )
 
     local MISSING=()
@@ -192,7 +247,9 @@ _create_pc_shim() {
         local shim_dir="$HOME/.local/lib/pkgconfig"
         mkdir -p "$shim_dir"
         local ver
-        ver=$(pacman -Q systemd 2>/dev/null | awk '{print $2}' | cut -d- -f1 || echo "255")
+        ver=$(pacman -Q "$name" 2>/dev/null | awk '{print $2}' | cut -d- -f1 \
+              || pacman -Q systemd 2>/dev/null | awk '{print $2}' | cut -d- -f1 \
+              || echo "255")
         cat > "$shim_dir/${name}.pc" <<EOF
 prefix=/usr
 exec_prefix=\${prefix}
@@ -248,33 +305,35 @@ if [ "$CMAKE_OK" -eq 0 ]; then
 fi
 
 # ── Step 3: clone repos ──────────────────────────────────────────────────────
-# Helper: update a shallow clone that may be in detached HEAD state
+# Helper: update (or clone) a shallow clone of a specific branch.
+# Usage: git_update <dir> <repo> <branch>
 git_update() {
-    local dir="$1" repo="$2"
+    local dir="$1" repo="$2" branch="$3"
     if [ -d "$dir/.git" ]; then
         info "$(basename "$dir") already cloned — updating…"
-        git -C "$dir" fetch --depth 1 origin
-        # Determine the default remote branch
-        local branch
-        branch=$(git -C "$dir" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null \
-                 | sed 's|refs/remotes/origin/||' || true)
-        if [ -z "$branch" ]; then
-            # HEAD ref not set — ask the remote
-            branch=$(git -C "$dir" remote show origin 2>/dev/null \
-                     | awk '/HEAD branch/{print $NF}' || echo "main")
+        # Fix up origin URL if the repo was cloned from a different fork
+        local current_url
+        current_url=$(git -C "$dir" remote get-url origin 2>/dev/null || echo "")
+        if [ "$current_url" != "$repo" ]; then
+            warn "Remote URL changed ($current_url → $repo) — updating…"
+            git -C "$dir" remote set-url origin "$repo"
         fi
-        git -C "$dir" checkout "$branch" 2>/dev/null || git -C "$dir" checkout -b "$branch" "origin/$branch" 2>/dev/null || true
+        git -C "$dir" fetch --depth 1 origin "$branch"
+        git -C "$dir" checkout "$branch" 2>/dev/null \
+            || git -C "$dir" checkout -b "$branch" "origin/$branch"
         git -C "$dir" reset --hard "origin/$branch"
     else
         info "Cloning $(basename "$dir")…"
-        git clone --depth 1 "$repo" "$dir"
+        git clone --depth 1 --branch "$branch" "$repo" "$dir"
     fi
 }
 
-git_update "$INSTALL_DIR" "$RENUT_REPO"
+RENUT_BRANCH="Linux"
+git_update "$INSTALL_DIR" "$RENUT_REPO" "$RENUT_BRANCH"
 
 SDK_DIR="$(dirname "$INSTALL_DIR")/rexglue-sdk"
-git_update "$SDK_DIR" "$SDK_REPO"
+SDK_BRANCH="main"
+git_update "$SDK_DIR" "$SDK_REPO" "$SDK_BRANCH"
 
 # ── Step 4: configure ────────────────────────────────────────────────────────
 BUILD_DIR="$INSTALL_DIR/out/build/$BUILD_PRESET"
@@ -285,6 +344,8 @@ if [ -d "$BUILD_DIR" ]; then
 fi
 
 info "Configuring ($BUILD_PRESET)…"
+# Ensure shim .pc files take priority, then system paths
+export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:/usr/lib/pkgconfig:/usr/share/pkgconfig"
 cmake -S "$INSTALL_DIR" \
       -B "$BUILD_DIR" \
       -G Ninja \

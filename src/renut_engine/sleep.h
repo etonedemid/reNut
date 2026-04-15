@@ -4,7 +4,10 @@
 #include <thread>
 #ifdef _WIN32
 #include <timeapi.h>
+#else
+#include <sched.h>
 #endif
+#include <immintrin.h>
 
 
 std::once_flag g_timer_init;
