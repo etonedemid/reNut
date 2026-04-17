@@ -7,7 +7,15 @@
 #else
 #include <sched.h>
 #endif
+
+#if defined(__x86_64__) || defined(_M_X64) || defined(__i386__) || defined(_M_IX86)
 #include <immintrin.h>
+#define REX_SPIN_PAUSE() _mm_pause()
+#elif defined(__aarch64__) || defined(_M_ARM64)
+#define REX_SPIN_PAUSE() __asm__ volatile("yield")
+#else
+#define REX_SPIN_PAUSE() ((void)0)
+#endif
 
 
 std::once_flag g_timer_init;
@@ -58,7 +66,7 @@ ppc_u32_result_t Sleep_hook(ppc_u32_t ms) {
     }
 
     while (std::chrono::steady_clock::now() < target)
-        _mm_pause();
+        REX_SPIN_PAUSE();
 
     return 0;
 }

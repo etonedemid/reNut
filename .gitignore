@@ -4,6 +4,17 @@ assets/
 generated/
 .vs/
 
+# Release artifacts
+*.AppImage
+*.apk
+*.zip
+
+# Android build
+build-android/
+android/app/build/
+android/.gradle/
+android/build/
+
 # Release zips
 *.zip
 
@@ -43,4 +54,4 @@ launch.sh
 LICENSE_extract-xiso.txt
 renut.toml
 extract-xiso
-out
+outlocal.properties

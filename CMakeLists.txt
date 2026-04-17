@@ -26,11 +26,16 @@ set(RENUT_SOURCES
     src/renut_engine/hooks.cpp
     src/renut_engine/StopNSwap.cpp
     src/renut_engine/fixes/mullhwucrash.cpp
+    src/renut_engine/fixes/nullmemcpy.cpp
 )
 
 if(WIN32)
 list(APPEND RENUT_SOURCES icon/app.rc)
     add_executable(renut WIN32 ${RENUT_SOURCES})
+    target_link_options(renut PRIVATE -municode)
+elseif(ANDROID)
+    # On Android, build as a shared library loaded by the Java Activity
+    add_library(renut SHARED ${RENUT_SOURCES})
 else()
     add_executable(renut ${RENUT_SOURCES})
 endif()
