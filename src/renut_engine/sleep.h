@@ -37,7 +37,7 @@ void DisableHighResTimer() {
 }
 
 // Sleep CRT hook
-ppc_u32_result_t Sleep_hook(ppc_u32_t ms) {
+u32 Sleep_hook(u32 ms) {
     EnableHighResTimer();
 
     if (ms == 0) {

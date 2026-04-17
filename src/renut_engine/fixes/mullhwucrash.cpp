@@ -1,4 +1,4 @@
-#include <rex/ppc.h>
+#include "generated/renut_init.h"
 #include <simde/x86/avx2.h>
 
 extern "C" PPC_FUNC(__imp__sub_823A6950);

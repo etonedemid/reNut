@@ -8,7 +8,7 @@
  * copy when dst is 0.
  */
 
-#include <rex/ppc.h>
+#include "generated/renut_init.h"
 #include <cstring>
 
 // memcpy  @ 0x82BB4510
