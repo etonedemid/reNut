@@ -18,6 +18,12 @@ if(REXSDK_DIR AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64)$")
     add_compile_options(-mssse3)
 endif()
 
+# Force-include glibc compat header globally so .symver directives apply to ALL
+# translation units (rexcore, SDL3, imgui, FFmpeg, glslang, etc.)
+if(REXSDK_DIR AND CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    add_compile_options(-include ${REXSDK_DIR}/src/core/glibc_compat_force.h)
+endif()
+
 include(generated/rexglue.cmake)
 
 # Sources
