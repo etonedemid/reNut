@@ -18,9 +18,19 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("${rootProject.projectDir}/renut-release.jks")
+            storePassword = "renutrelease"
+            keyAlias = "renut"
+            keyPassword = "renutrelease"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isDebuggable = true
@@ -36,9 +46,14 @@ android {
     // Use the prebuilt librenut.so from the CMake build directory
     sourceSets {
         getByName("main") {
-            jniLibs.srcDirs("${rootProject.projectDir}/../build-android/jniLibs")
             // Assets are too large for APK (~6GB) — push them to device storage
             // via: adb push assets/ /sdcard/Android/data/com.rexglue.renut/files/assets/
+        }
+        getByName("debug") {
+            jniLibs.srcDirs("${rootProject.projectDir}/../build-android/jniLibs")
+        }
+        getByName("release") {
+            jniLibs.srcDirs("${rootProject.projectDir}/../build-android/jniLibs-release")
         }
     }
 
